@@ -1,0 +1,38 @@
+[build]
+  command = "npm run build"
+  functions = "netlify/functions"
+  publish = "build"
+
+[dev]
+  command = "npm run dev"
+  functions = "netlify/functions"
+  publish = "public"
+  targetPort = 5173
+
+# API redirects - these must come before the SPA redirect
+[[redirects]]
+  from = "/api/chat"
+  to = "/.netlify/functions/chat"
+  status = 200
+
+[[redirects]]
+  from = "/api/chat-stream"
+  to = "/.netlify/functions/chat-stream"
+  status = 200
+
+[[redirects]]
+  from = "/api/debug"
+  to = "/.netlify/functions/debug-routes"
+  status = 200
+
+# SPA redirect
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[functions]
+  node_bundler = "esbuild"
+
+[build.environment]
+  NODE_VERSION = "18.19.0"
